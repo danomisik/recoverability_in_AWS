@@ -266,7 +266,17 @@ Screenshot of the same website once again with the original background, still di
 
 1. Student creates RDS database via CloudFormation or Terraform
 
+Cloudfromation script with Primary RDS is in ./cloudformation/primary_vpc.yaml.
 
+Cloudfromation script with Read replica of RDS is in ./cloudformation/secondary_vpc.yaml
+
+Configuration of Primary RDS through AWS Console after creation is below:
+![CloudFormation Primary RDS config 1](screenshots/CloudFormation_PrimaryRDS_config1.PNG "CloudFormation PrimaryRDS config 1")
+![CloudFormation Primary RDS config 2](screenshots/CloudFormation_PrimaryRDS_config2.PNG "CloudFormation PrimaryRDS config 2")
+
+Configuration of Read replica of Primary RDS through AWS Console after creation is below:
+![CloudFormation Secondary RDS config 1](screenshots/CloudFormation_SecondaryRDS_config1.PNG "CloudFormation Secondary RDS config 1")
+![CloudFormation Secondary RDS config 2](screenshots/CloudFormation_SecondaryRDS_config2.PNG "CloudFormation Secondary RDS config 2")
 
 2. Student sets up VPC peering between the two regions
 
