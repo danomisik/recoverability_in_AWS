@@ -1,0 +1,41 @@
+ubuntu@ip-10-1-10-53:~$ mysql -h udacity.c0jg9v46rfiv.eu-central-1.rds.amazonaws.com -P 3306 -u admin -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 50
+Server version: 8.0.20 Source distribution
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> CREATE DATABASE books;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE books;
+Database changed
+mysql> CREATE TABLE authors (id INT, name VARCHAR(20), email VARCHAR(20));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> SHOW TABLES;
++-----------------+
+| Tables_in_books |
++-----------------+
+| authors         |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO authors (id,name,email) VALUES(1,"Vivek","xuz@abc.com");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT * FROM authors;
++------+-------+-------------+
+| id   | name  | email       |
++------+-------+-------------+
+|    1 | Vivek | xuz@abc.com |
++------+-------+-------------+
+1 row in set (0.00 sec)

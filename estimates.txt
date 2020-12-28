@@ -1,0 +1,65 @@
+Answers to questions:
+1. Minimum RTO for a single AZ outage
+-------------------------------------
+Database is Multi-AZ database. Right now it have one instance in one of two AZs. 
+If there is some connection issue with working instance, second instance is prepared in secondary zone.
+It means there is no Recovery Time Objective.
+
+If both instances have issue then RTO is 2 hours:
+
+00:00 --> Problem happens
+00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:06 --> Alert triggers on all staff
+00:26 --> Get out of bed, login
+00:36 --> start diagnoses
+01:00 --> Root cause is discovered
+01:30 --> Remediation started
+01:59 --> Remediation complete
+
+Notes: We have 24/7 support team, Remote access to systems and Documented recovery procedure.
+
+2. Minimum RTO for a single region outage
+-----------------------------------------
+If we need to switch DB from one region to another, then RTO is 2,5 hours:
+
+00:00 --> Problem happens
+00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:06 --> Alert triggers on all staff
+00:26 --> Get out of bed, login
+00:36 --> start diagnoses
+01:00 --> Root cause is discovered
+01:30 --> Remediation started
+01:59 --> Remediation complete
+02:30 --> Switch read replica to master role ( reconfigure to read write replica, reconfigure to master role )
+
+3. Minimum RPO for a single AZ outage
+-------------------------------------
+
+We have enabled backups on every 30 days. We also have 24/7 support team.
+Estimated minimum RPO for a single AZ outage is:
+00:00 --> Problem happens
+00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:06 --> Alert triggers on all staff
+00:26 --> Get out of bed, login
+00:30 --> Staring Restore in point and time
+00:50 --> Restoring is finished
+
+Minimum RPO for a single AZ outage should be 50 minutes. Maximum RPO can be 30 days.
+
+
+4. Minimum RPO for a single region outage
+-----------------------------------------
+We have enabled backups on every 30 days. We also have 24/7 support team.
+Estimated minimum RPO for a single AZ outage is:
+00:00 --> Problem happens
+00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:06 --> Alert triggers on all staff
+00:26 --> Get out of bed, login
+00:30 --> Staring Restore in point and time in new region
+00:50 --> Restoring is finished
+
+Minimum RPO for a single AZ outage should be 50 minutes. Maximum RPO can be 30 days.
+
+Dictionary:
+Recover Time Objective (RTO) 
+Recovery Point Objective (RPO) --> the maximum amount of time over which you can lose data
