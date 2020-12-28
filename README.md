@@ -185,7 +185,7 @@ Configuration of read replica is:
 ![Secondary DB config 2](screenshots/secondaryDB_config2.PNG "Secondary DB config 2")
 
 Secondary RDS subnet group is:
-![Secondary RDS subnet group](screenshots/secondaryVPC_subnetgroup.PNG "Secondary RDS subnet group")
+![Secondary RDS subnet group](screenshots/secondaryDB_subnetgroup.PNG "Secondary RDS subnet group")
 
 Subnets details:
 ![Subnet 1 details](screenshots/secondaryVPC_subnet1.PNG "Subnet 1 details")
@@ -236,7 +236,8 @@ Secondary RDS configuration after promotion:
 
 1. SWBAT create a versioned website
 
-s3_original.PNG
+Screenshot of the website with a winter scene as the background and displaying a timestamp:
+![S3 original](screenshots/s3_original.PNG "S3 original")
 
 2. SWBAT recover from “accidental” modification to website
 
@@ -317,7 +318,7 @@ Subpart with HOW to links.
 }
 Note: dont forget set "--content-type text/html". If you will not, webside will not work.
 
-### How to undeletede deleted object:
+### How to undelete deleted object:
 
 <https://docs.aws.amazon.com/AmazonS3/latest/user-guide/undelete-objects.html>
 
