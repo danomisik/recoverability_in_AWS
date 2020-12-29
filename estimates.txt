@@ -1,65 +1,57 @@
-Answers to questions:
+What we have:
+1. We have 24/7 support team
+2. Remote access to systems
+3. Documented recovery procedure.
+4. Backup every 30 days
+5. Read replica in different region
+
 1. Minimum RTO for a single AZ outage
 -------------------------------------
-Database is Multi-AZ database. Right now it have one instance in one of two AZs. 
-If there is some connection issue with working instance, second instance is prepared in secondary zone.
-It means there is no Recovery Time Objective.
+Database is Multi-AZ database. Right now it have one primary instance in first of two AZs and standby instance in second AZ. In this Multi-AZ configuration, backups occur on the standby to reduce impact on the primary. 
+If an Availability Zone failure or primary instance failure occurs, availability impact is limited to the time automatic failover takes to complete: typically one to two minutes for standby database.
+Minimum RTO will be 1-2 minutes.
+For more check this link: <https://aws.amazon.com/rds/features/multi-az/>
 
-If both instances have issue then RTO is 2 hours:
-
-00:00 --> Problem happens
-00:05 --> an amount of time passed before an alert triggers (5 minutes)
-00:06 --> Alert triggers on all staff
-00:26 --> Get out of bed, login
-00:36 --> start diagnoses
-01:00 --> Root cause is discovered
-01:30 --> Remediation started
-01:59 --> Remediation complete
-
-Notes: We have 24/7 support team, Remote access to systems and Documented recovery procedure.
+Note that Amazon RDS Multi-AZ deployments do not failover automatically in response to database operations such as long running queries, deadlocks or database corruption errors.
 
 2. Minimum RTO for a single region outage
 -----------------------------------------
-If we need to switch DB from one region to another, then RTO is 2,5 hours:
+If one region fails, we have to promote the read replica to take place of master database. This requires manual intervention.
 
 00:00 --> Problem happens
-00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:05 --> An amount of time passed before an alert triggers (5 minutes)
 00:06 --> Alert triggers on all staff
 00:26 --> Get out of bed, login
-00:36 --> start diagnoses
-01:00 --> Root cause is discovered
-01:30 --> Remediation started
-01:59 --> Remediation complete
-02:30 --> Switch read replica to master role ( reconfigure to read write replica, reconfigure to master role )
+00:36 --> Start promotion of read replica
+01:00 --> Promotion of read replica completed
+
+Minimum RTO will be 1 hour.
 
 3. Minimum RPO for a single AZ outage
 -------------------------------------
-
-We have enabled backups on every 30 days. We also have 24/7 support team.
-Estimated minimum RPO for a single AZ outage is:
-00:00 --> Problem happens
-00:05 --> an amount of time passed before an alert triggers (5 minutes)
-00:06 --> Alert triggers on all staff
-00:26 --> Get out of bed, login
-00:30 --> Staring Restore in point and time
-00:50 --> Restoring is finished
-
-Minimum RPO for a single AZ outage should be 50 minutes. Maximum RPO can be 30 days.
-
+Failover in this case is automated. Staff is not required to restore the database.
+If an Availability Zone failure or primary instance failure occurs, availability impact is limited to the time automatic failover takes to complete: typically one to two minutes for standby database.
+Backup is set to every 30 days. It means if there is fail in Primary database right after backup... Minimum RPO for a single AZ outage should 1-2 minutes. Maximum RPO can be 30 days.
 
 4. Minimum RPO for a single region outage
 -----------------------------------------
-We have enabled backups on every 30 days. We also have 24/7 support team.
-Estimated minimum RPO for a single AZ outage is:
+In this case we have Read Replica in second region. Amazon RDS uses the asynchronous replication method of the DB engine to update the Read Replica whenever there is a change made on the source DB instance. 
+An important metric to monitor with a Read Replica is the replica lag, which is the amount of time that the replica is behind the source database. 
+A replica lag can impact your recovery. 
+Replica lag can vary based on the network latency between the source and destination Regions. 
+It can also be affected by the amount of traffic that is being replicated. 
+Because Read Replicas have a running DB instance, the time required to recover after a disaster is lower.
+The disadvantages of this case is that you need to perform a manual recover.
+
 00:00 --> Problem happens
-00:05 --> an amount of time passed before an alert triggers (5 minutes)
+00:05 --> An amount of time passed before an alert triggers (5 minutes)
 00:06 --> Alert triggers on all staff
 00:26 --> Get out of bed, login
-00:30 --> Staring Restore in point and time in new region
-00:50 --> Restoring is finished
+00:36 --> Start promotion of read replica
+01:00 --> Promotion of read replica completed
 
-Minimum RPO for a single AZ outage should be 50 minutes. Maximum RPO can be 30 days.
+From now you will not lose any data. Minimum RPO for a single AZ outage should be 1 hour. Maximum RPO should be again 1 hour, because Read replica is asynchronious replication of Primary database and is not influenced by backups every 30 days.
 
 Dictionary:
-Recover Time Objective (RTO) 
+Recover Time Objective (RTO) represents how many hours it takes you to return to a working state after a disaster. 
 Recovery Point Objective (RPO) --> the maximum amount of time over which you can lose data
