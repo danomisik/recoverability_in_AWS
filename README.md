@@ -328,10 +328,23 @@ Subpart with HOW to links.
 }
 Note: dont forget set "--content-type text/html". If you will not, webside will not work.
 
-### How to undelete deleted object:
+### How to undelete deleted object
 
 <https://docs.aws.amazon.com/AmazonS3/latest/user-guide/undelete-objects.html>
 
-### How to setup CloudFront + S3 bucket:
+### How to setup CloudFront + S3 bucket
 
 <https://app.pluralsight.com/course-player?clipId=7cf86902-5c52-454f-915b-1db49042d690>
+
+### How to Disaster recovery
+
+Minimum RTO for a single AZ outage:
+
+Try to reboot RDS with failover and you can see how long does it take for the secondary AZ database to become active. Refer this link on how to reboot the database with failover: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html>
+
+Single AZ outage in multi-AZ deployment: There exists synchronous replication in case of multi AZ deployments. Whenever one AZ fails, automatic failover takes place. RTO and RPO are very less in this case.
+Refer this link to understand more about multi-AZ deployments: <https://aws.amazon.com/rds/features/multi-az/>
+
+Single region outage in multi-region deployment: If one region fails, we have to promote the read replica to take place of master database. This requires manual intervention. Also, there exists asynchronous replication in this case. Thus, RTO and RPO are slightly greater in this case.
+Refer this link to understand more about RTO and RPO for RDS: <https://aws.amazon.com/blogs/database/implementing-a-disaster-recovery-strategy-with-amazon-rds/>
+
